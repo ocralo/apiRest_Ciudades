@@ -2,13 +2,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", function(req, res) {
-  res.send("Hola mundo");
+  res.send([{
+    sensor:"temperatura",
+    data:23
+  }, {
+    sensor:"humedad",
+    data:40
+  }]);
 });
 
 app.post("/", function(req, res) {
@@ -16,6 +20,6 @@ app.post("/", function(req, res) {
   res.send(req.body);
 });
 
-app.listen(3000, function() {
-  console.log("Example app listening on port 3000!");
+app.listen(8080, function() {
+  console.log("Example app listening on port 8080!");
 });

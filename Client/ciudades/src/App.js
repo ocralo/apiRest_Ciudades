@@ -9,6 +9,7 @@ function App() {
   const [data, setData] = useState({"data":"d"});
 
   useEffect(()=>{
+    //se crea el protocolo get de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
     axios.get(`http://localhost:8080`)
       .then(res => {
         const persons = res.data;

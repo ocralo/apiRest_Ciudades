@@ -4,16 +4,12 @@
 /node_modules
 /.pnp
 .pnp.js
-/Client/ciudades/node_modules
-/Client/ciudades/.pnp
-/Client/ciudades/.pnp.js
 
 # testing
 /coverage
 
 # production
 /build
-/Client/ciudades/build
 
 # misc
 .DS_Store
@@ -21,11 +17,6 @@
 .env.development.local
 .env.test.local
 .env.production.local
-/Client/ciudades/.DS_Store
-/Client/ciudades/.env.local
-/Client/ciudades/.env.development.local
-/Client/ciudades/.env.test.local
-/Client/ciudades/.env.production.local
 
 npm-debug.log*
 yarn-debug.log*

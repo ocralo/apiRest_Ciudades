@@ -1,43 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import Loadable from "react-loadable";
+import { HashRouter, Route, Switch } from "react-router-dom";
 //import Boostrap Library
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap";
 
-function App() {
-  // Declara una nueva variable de estado, la cual llamaremos “count”
-  const [data, setData] = useState({"data":"d"});
+const loading = () => (
+  <div className="spinner-border text-danger" role="status">
+    <span className="sr-only">Loading...</span>
+  </div>
+);
 
-  useEffect(()=>{
-    //se crea el protocolo get de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
-    axios.get(`http://localhost:8080`)
-      .then(res => {
-        const persons = res.data;
-        setData(persons)
-        console.log(persons)
-      })
-  },[])
+const Login = Loadable({
+  loader: () => import("./views/Login/Login"),
+  loading
+});
+
+function App() {
 
   return (
-    <div className="container">
-      <div className="row text-center justify-content-center">
-       <h2>
-         Datos del servidor
-         </h2> 
-      </div>
-      <div className="row mt-4">
-        {Object.keys(data).map((key)=>{
-          return(<div className="col-6" key={key}>
-            <div className="card">
-              <div className="card-body">
-              <h6 className="card-title">{data[key].sensor}</h6>
-            <p className="card-text">{data[key].data}</p>
-              </div>
-            </div>
-          </div>)
-        })}
-      </div>
-    </div>
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" name="Login - IMUAO" component={Login} />
+      </Switch>
+    </HashRouter>
   );
 }
 

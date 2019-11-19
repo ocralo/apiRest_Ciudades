@@ -7,10 +7,11 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    /* //se crea el protocolo get de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
-    axios.get(``).then(res => {
+    //se crea el protocolo get de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
+    axios.get("http://LOCALHOST:8080/").then(res => {
       const dataServer = res.data;
-    }); */
+      console.log(dataServer);
+    });
   });
   /* Metodo para enviar datos al servidor mediante el metodo post */
   function sendServer(event) {
@@ -26,7 +27,7 @@ export default function Login() {
     .catch(function(error) {
       console.log(error);
     });*/
-    console.log(password,mail);
+    console.log(password, mail);
     event.preventDefault();
   }
 

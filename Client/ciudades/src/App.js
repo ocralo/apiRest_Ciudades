@@ -15,6 +15,10 @@ const Login = Loadable({
   loader: () => import("./views/Login/Login"),
   loading
 });
+const Home = Loadable({
+  loader: () => import("./views/Home/Home"),
+  loading
+});
 
 function App() {
 
@@ -22,6 +26,7 @@ function App() {
     <HashRouter>
       <Switch>
         <Route exact path="/" name="Login - IMUAO" component={Login} />
+        <Route exact path="/home" name="Login - IMUAO" component={Home} />
       </Switch>
     </HashRouter>
   );

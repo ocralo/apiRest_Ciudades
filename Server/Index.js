@@ -42,6 +42,33 @@ app.get("/", function(req, res) {
   });
 });
 
+/* Metodo para verificar el login */
+app.post("/login", function(req, res) {
+  console.log(req.body.user, req.body.password);
+  const sqlSelect = `SELECT email,password FROM Usuarios WHERE email='${req.body.user}' AND password='${req.body.password}'`;
+  con.getConnection(function(error, tempCont) {
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlSelect, function(error, rows, field) {
+        if (!!error) {
+          console.log("error en el query");
+        } else {
+          tempCont.release();
+          var entre = false;
+          if (rows.length > 0) {
+            entre = true;
+            res.send(entre);
+          } else {
+            res.send(entre);
+          }
+        }
+      });
+    }
+  });
+});
+
 app.post("/", function(req, res) {
   console.log(req.body.temp);
   res.send(req.body);

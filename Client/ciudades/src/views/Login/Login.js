@@ -2,33 +2,38 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Login.css";
 
-export default function Login() {
+export default function Login(props) {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    //se crea el protocolo get de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
+    /* //se crea el protocolo get de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
     axios.get("http://LOCALHOST:8080/").then(res => {
       const dataServer = res.data;
       console.log(dataServer);
-    });
+    }); */
   });
   /* Metodo para enviar datos al servidor mediante el metodo post */
-  function sendServer(event) {
-    /* //se crea el protocolo post de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
+  function sendServer(e) {
+    //se crea el protocolo post de la aplicacion axios para que haga una peticion get al servidor local que se ha creado anterior mente
     axios
-    .post("/user", {
-      firstName: "Fred",
-      lastName: "Flintstone"
-    })
-    .then(function(response) {
-      console.log(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });*/
+      .post("http://LOCALHOST:8080/login", {
+        user: mail,
+        password: password
+      })
+      .then(function(response) {
+        console.log(response.data);
+        if (response.data === true) {
+          props.history.push("/home");
+        } else {
+          alert("el usuario o contraseña son incoreectas");
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
     console.log(password, mail);
-    event.preventDefault();
+    e.preventDefault();
   }
 
   return (
@@ -85,12 +90,11 @@ export default function Login() {
                       }}
                     />
                   </div>
-                  <button
+                  <input
                     type="submit"
                     className="btn btn-primary btn-lg btn-block"
-                  >
-                    Ingresar
-                  </button>
+                    value="Ingresar"
+                  ></input>
                 </form>
               </div>
             </div>

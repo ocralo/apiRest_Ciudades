@@ -19,14 +19,19 @@ const Home = Loadable({
   loader: () => import("./views/Home/Home"),
   loading
 });
+const Data = Loadable({
+  loader: () => import("./views/DataUser/DataUser"),
+  loading
+});
 
 function App() {
 
   return (
     <HashRouter>
       <Switch>
-        <Route exact path="/" name="Login - IMUAO" component={Login} />
-        <Route exact path="/home" name="Login - IMUAO" component={Home} />
+        <Route exact path="/" name="Login" component={Login} />
+        <Route exact path="/home" name="Home" component={Home} />
+        <Route exact path="/home/data/:user" name="Datos de usuario" component={Data} />
       </Switch>
     </HashRouter>
   );

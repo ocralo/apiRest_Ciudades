@@ -122,7 +122,7 @@ app.get("/users/data/sensor", function(req, res) {
           console.log("error en el query");
         } else {
           tempCont.release();
-          console.log(rows)
+          console.log(rows);
           if (rows.length > 0) {
             res.send(rows);
           } else {
@@ -165,40 +165,37 @@ app.post("/login", function(req, res) {
 app.post("/insert/data", function(req, res) {
   const fechaActual = new Date();
   const fecha = `${fechaActual.getFullYear()}-${fechaActual.getMonth()}-${fechaActual.getDate()}`;
-  console.log(req.body)
+  console.log(req.body);
   Object.keys(req.body.Sensores).map(key => {
     let sensor = req.body.Sensores[key];
     const sqlInsert = `INSERT INTO Sensores ( nameSensor, data, dateSensing) VALUES ( '${key}', '${sensor}', '${fecha}')`;
-    insertDbSensores(sqlInsert);
+    insertDbSensores(sqlInsert, req.body.IdDispositivo);
   });
-
-  const sqlInsert =`INSERT INTO Dis_Sensor (idDis_Sensor, fkDispositivo, fkSensor) VALUES (NULL, '2', '1')`
-
 });
 
 /* funcion para hacer envio de datos a la base de datos */
-function insertDbSensores(sqlInsert) {
+function insertDbSensores(sqlInsert, idDispositivo) {
   con.getConnection(function(error, tempCont) {
     if (error) {
       console.log("error coneccion DB");
     } else {
       console.log("Connected DB!");
-      tempCont.query(sqlInsert, function(error,result) {
+      tempCont.query(sqlInsert, function(error, result) {
         if (!!error) {
           console.log("error en el query");
         } else {
           tempCont.release();
           console.log(result.insertId);
-          insertDbBreakSensores(result.insertId);
+          insertDbBreakSensores(result.insertId, idDispositivo);
         }
       });
     }
   });
 }
 /* funcion para hacer la relacion de los sensores a la base de datos de la tabla de rompimiento*/
-function insertDbBreakSensores(idSensor) {
+function insertDbBreakSensores(idSensor, idDispositivo) {
   con.getConnection(function(error, tempCont) {
-    let sqlInsert = `INSERT INTO Dis_Sensor (fkDispositivo, fkSensor) VALUES ('2', '${idSensor}')`
+    let sqlInsert = `INSERT INTO Dis_Sensor (fkDispositivo, fkSensor) VALUES ('${idDispositivo}', '${idSensor}')`;
     if (error) {
       console.log("error coneccion DB");
     } else {

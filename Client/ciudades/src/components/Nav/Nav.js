@@ -6,10 +6,10 @@ export default function Nav() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link to={"/home"} className="navbar-brand">
         <img
-          src="/docs/4.3/assets/brand/bootstrap-solid.svg"
+          src={`${process.env.PUBLIC_URL}/assets/LogoHMA.png`}
           width="30"
           height="30"
-          className="d-inline-block align-top"
+          className="d-inline-block align-top mr-2"
           alt=""
         />
         HMA DEVICE
@@ -38,6 +38,15 @@ export default function Nav() {
           <li className="nav-item">
             <Link to={"/registerD"} className="nav-link text-bolder" href="#">
               Registar Dispositivo
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to={"/"}
+              className="nav-link text-bolder text-primary"
+              href="#"
+            >
+              Cerrar Sesion
             </Link>
           </li>
         </ul>

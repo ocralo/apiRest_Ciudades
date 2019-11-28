@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Nav from "../../components/Nav/Nav";
+import "./Home.css";
 
 export default function Home(props) {
   const [users, setUsers] = useState("");
@@ -49,6 +50,7 @@ export default function Home(props) {
                       onClick={() => {
                         viewdataUser(usr.name);
                       }}
+                      className="rel-select-usr"
                     >
                       <th scope="row">{i + 1}</th>
                       <td>{usr.name}</td>

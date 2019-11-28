@@ -20,3 +20,7 @@
 .App-link {
   color: #09d3ac;
 }
+
+.rel-select-usr:hover{
+  cursor: pointer;
+}

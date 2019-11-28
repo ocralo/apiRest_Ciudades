@@ -99,6 +99,41 @@ app.post("/users/data", function(req, res) {
   });
 });
 
+/* Metodo para enviar los datos del usuario seleccionado y sensor seleccionado*/
+app.get("/users/data/sensor", function(req, res) {
+  const sqlSelect = `SELECT Sensores.data, 
+  Sensores.dateSensing, Sensores.nameSensor, 
+  Dispositivos.nameDispositivo, Dispositivos.zone, 
+  Usuarios.name, Usuarios.apellido, Usuarios.edad 
+  FROM Sensores, Dis_Sensor, Dispositivos, Usuarios 
+  WHERE Sensores.idSensor=Dis_Sensor.fkSensor 
+  AND Sensores.nameSensor='${req.query.sensor}'
+  AND Dis_Sensor.fkDispositivo=Dispositivos.idDispositivo 
+  AND Dispositivos.fkUser=Usuarios.idUsuario 
+  AND Usuarios.name='${req.query.name}'`;
+  console.log(req.query.name);
+  con.getConnection(function(error, tempCont) {
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlSelect, function(error, rows, field) {
+        if (!!error) {
+          console.log("error en el query");
+        } else {
+          tempCont.release();
+          console.log(rows)
+          if (rows.length > 0) {
+            res.send(rows);
+          } else {
+            res.send(null);
+          }
+        }
+      });
+    }
+  });
+});
+
 /* Metodo para verificar el login */
 app.post("/login", function(req, res) {
   console.log(req.body.user, req.body.password);
@@ -125,6 +160,76 @@ app.post("/login", function(req, res) {
     }
   });
 });
+
+/* Metodo para recibir datos del hardware */
+app.post("/insert/data", function(req, res) {
+  const fechaActual = new Date();
+  const fecha = `${fechaActual.getFullYear()}-${fechaActual.getMonth()}-${fechaActual.getDate()}`;
+  console.log(req.body)
+  Object.keys(req.body.Sensores).map(key => {
+    let sensor = req.body.Sensores[key];
+    const sqlInsert = `INSERT INTO Sensores ( nameSensor, data, dateSensing) VALUES ( '${key}', '${sensor}', '${fecha}')`;
+    insertDbSensores(sqlInsert);
+  });
+
+  const sqlInsert =`INSERT INTO Dis_Sensor (idDis_Sensor, fkDispositivo, fkSensor) VALUES (NULL, '2', '1')`
+
+});
+
+/* funcion para hacer envio de datos a la base de datos */
+function insertDbSensores(sqlInsert) {
+  con.getConnection(function(error, tempCont) {
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlInsert, function(error,result) {
+        if (!!error) {
+          console.log("error en el query");
+        } else {
+          tempCont.release();
+          console.log(result.insertId);
+          insertDbBreakSensores(result.insertId);
+        }
+      });
+    }
+  });
+}
+/* funcion para hacer la relacion de los sensores a la base de datos de la tabla de rompimiento*/
+function insertDbBreakSensores(idSensor) {
+  con.getConnection(function(error, tempCont) {
+    let sqlInsert = `INSERT INTO Dis_Sensor (fkDispositivo, fkSensor) VALUES ('2', '${idSensor}')`
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlInsert, function(error) {
+        if (!!error) {
+          console.log("error en el query");
+        } else {
+          tempCont.release();
+        }
+      });
+    }
+  });
+}
+/* funcion para hacer envio de datos a la base de datos */
+function insertDb(sqlInsert) {
+  con.getConnection(function(error, tempCont) {
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlInsert, function(error) {
+        if (!!error) {
+          console.log("error en el query");
+        } else {
+          tempCont.release();
+        }
+      });
+    }
+  });
+}
 
 /* app.post("/", function(req, res) {
   console.log(req.body.temp);

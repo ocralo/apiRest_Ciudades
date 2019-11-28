@@ -24,7 +24,7 @@ export default function Home(props) {
       <div className="container mt-4">
         <div className="row">
           <div className="col-12">
-            <h2>Usuarios</h2>
+            <h2>Pacientes</h2>
           </div>
         </div>
         <div className="row">

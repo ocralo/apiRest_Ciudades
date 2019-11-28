@@ -42,7 +42,7 @@ const con = mysql.createPool({
   });
 });
  */
-/* Metodo para enviar los usuarios existentes */
+/* Metodo para obtener los Pacientes existentes */
 app.get("/users", function(req, res) {
   const sqlSelect = "SELECT name,apellido,edad,cedula,email FROM Usuarios";
   con.getConnection(function(error, tempCont) {
@@ -60,6 +60,73 @@ app.get("/users", function(req, res) {
           } else {
             res.send(null);
           }
+        }
+      });
+    }
+  });
+});
+/* Metodo para obtener el id del paciente los Pacientes existentes */
+app.get("/users/id", function(req, res) {
+  const sqlSelect = "SELECT idUsuario,name FROM Usuarios";
+  con.getConnection(function(error, tempCont) {
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlSelect, function(error, rows, field) {
+        if (!!error) {
+          console.log("error en el query");
+        } else {
+          tempCont.release();
+          if (rows.length > 0) {
+            res.send(rows);
+          } else {
+            res.send(null);
+          }
+        }
+      });
+    }
+  });
+});
+
+/* Metodo para enviar los datos del usuario seleccionado */
+app.post("/users/register", function(req, res) {
+  const sqlInsert = `INSERT INTO Usuarios ( name, apellido, edad, cedula, email, password) VALUES ('${req.body.nombre}', '${req.body.apellido}', '${req.body.edad}', '${req.body.cedula}', '${req.body.correo}', '${req.body.contra}')`;
+  console.log(sqlInsert);
+  con.getConnection(function(error, tempCont) {
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlInsert, function(error) {
+        if (!!error) {
+          console.log("error en el query");
+          res.send(false)
+        } else {
+          res.send(true)
+          tempCont.release();
+        }
+      });
+    }
+  });
+});
+
+/* Metodo para craear un dispositivo */
+app.post("/dispo/register", function(req, res) {
+  const sqlInsert = `INSERT INTO Dispositivos ( nameDispositivo, zone, fkUser) VALUES ( '${req.body.namedispo}', '${req.body.zona}', '${req.body.idUser}')`;
+  console.log(sqlInsert);
+  con.getConnection(function(error, tempCont) {
+    if (error) {
+      console.log("error coneccion DB");
+    } else {
+      console.log("Connected DB!");
+      tempCont.query(sqlInsert, function(error) {
+        if (!!error) {
+          console.log("error en el query");
+          res.send(false);
+        } else {
+          res.send(true);
+          tempCont.release();
         }
       });
     }
@@ -134,10 +201,10 @@ app.get("/users/data/sensor", function(req, res) {
   });
 });
 
-/* Metodo para verificar el login */
+/* Metodo para verificar el login de los medicos */
 app.post("/login", function(req, res) {
   console.log(req.body.user, req.body.password);
-  const sqlSelect = `SELECT email,password FROM Usuarios WHERE email='${req.body.user}' AND password='${req.body.password}'`;
+  const sqlSelect = `SELECT email,password FROM Medicos WHERE email='${req.body.user}' AND password='${req.body.password}'`;
   con.getConnection(function(error, tempCont) {
     if (error) {
       console.log("error coneccion DB");

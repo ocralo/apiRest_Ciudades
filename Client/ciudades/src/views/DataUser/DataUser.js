@@ -315,7 +315,7 @@ export default function DataUser(props) {
       <div className="container mt-4">
         <div className="row">
           <div className="col-12">
-            <h2 className="text-uppercase">{props.match.params.user}</h2>
+            <h2 className="text-uppercase">Paciente {props.match.params.user}</h2>
           </div>
         </div>
         <div className="row mt-5">

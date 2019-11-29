@@ -159,7 +159,7 @@ export default function DataUser(props) {
     /* trae el dato de la Temperatuca Corporal */
     axios
       .get(
-        `http://LOCALHOST:8080/users/data/sensor?name=${props.match.params.user}&sensor=TemperatucaC`
+        `http://LOCALHOST:8080/users/data/sensor?name=${props.match.params.user}&sensor=TemperaturaC`
       )
       .then(res => {
         const dataServer = res.data;

@@ -65,7 +65,7 @@ app.get("/users", function(req, res) {
     }
   });
 });
-/* Metodo para obtener el id del paciente los Pacientes existentes */
+/* Metodo para obtener el id de los Pacientes existentes */
 app.get("/users/id", function(req, res) {
   const sqlSelect = "SELECT idUsuario,name FROM Usuarios";
   con.getConnection(function(error, tempCont) {
@@ -263,23 +263,6 @@ function insertDbSensores(sqlInsert, idDispositivo) {
 function insertDbBreakSensores(idSensor, idDispositivo) {
   con.getConnection(function(error, tempCont) {
     let sqlInsert = `INSERT INTO Dis_Sensor (fkDispositivo, fkSensor) VALUES ('${idDispositivo}', '${idSensor}')`;
-    if (error) {
-      console.log("error coneccion DB");
-    } else {
-      console.log("Connected DB!");
-      tempCont.query(sqlInsert, function(error) {
-        if (!!error) {
-          console.log("error en el query");
-        } else {
-          tempCont.release();
-        }
-      });
-    }
-  });
-}
-/* funcion para hacer envio de datos a la base de datos */
-function insertDb(sqlInsert) {
-  con.getConnection(function(error, tempCont) {
     if (error) {
       console.log("error coneccion DB");
     } else {
